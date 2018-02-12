@@ -63,48 +63,35 @@ def send_data(data):
 
 if __name__ == '__main__':
     sleep_time = 15 * 20
-    sleep = False
 
-    while True:
+    # check internet connection
+    if not check_internet_connection():
+        sys.exit()
 
-        # sleep for sleep_time in case of an error or exception
-        if sleep:
-            time.sleep(sleep_time)
-            sleep = False
+    # get wifi interface name
+    wifi_interface_name = get_interface_name()
 
-        # check internet connection
-        if not check_internet_connection():
-            sleep = True
-            continue
+    # check if connected wifi
+    if wifi_interface_name[0] != 'w':
+        sys.exit()
 
-        # get wifi interface name
-        wifi_interface_name = get_interface_name()
+    # get list of wifi ssid's
+    wifi_ssid_list = get_wifi_list(wifi_interface_name)
 
-        # check if connected wifi
-        if wifi_interface_name[0] != 'w':
-            sleep = True
-            continue
+    if wifi_ssid_list is None:
+        sys.exit()
 
-        # get list of wifi ssid's
-        wifi_ssid_list = get_wifi_list(wifi_interface_name)
+    # get new ssid from server
+    fetched_ssid = fetch_latest_ssid()
 
-        if wifi_ssid_list is None:
-            sleep = True
-            continue
+    if fetched_ssid is None:
+        sys.exit()
 
-        # get new ssid from server
-        fetched_ssid = fetch_latest_ssid()
+    ssid_found = check_wifi_ssid_found(wifi_ssid_list, fetched_ssid)
+    data_send = send_data(get_mac_address() + ", " + fetched_ssid)
 
-        if fetched_ssid is None:
-            sleep = True
-            continue
+    if not ssid_found and not data_send:
+        sys.exit()
 
-        ssid_found = check_wifi_ssid_found(wifi_ssid_list, fetched_ssid)
-        data_send = send_data(get_mac_address() + ", " + fetched_ssid)
-
-        if not ssid_found and not data_send:
-            sleep = True
-            continue
-
-        # sleep for and query after sometime
-        sleep = True
+    # sleep for and query after sometime
+    sleep = True
