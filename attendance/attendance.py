@@ -19,7 +19,7 @@ def check_internet_connection():
 
 
 def get_interface_name():
-    p = Popen(['./get_interface_name.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    p = Popen(['/etc/network/if-up.d/get_interface_name.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
     return output
 
@@ -56,7 +56,9 @@ def check_wifi_ssid_found(ssid_list, ssid):
 
 def send_data(data):
 
-    print(data)
+    file = open("/home/zombie/1.txt","w+")
+    file.write(data)
+    file.close()
 
     return True
 
