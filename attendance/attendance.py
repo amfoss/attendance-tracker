@@ -44,8 +44,8 @@ def get_wifi_list(interface_name):
 
 
 def fetch_latest_ssid():
-    data = json.load(open('data/ssid.json'))
-    return data["ssid"]
+
+    return "K4"
 
 
 def check_wifi_ssid_found(ssid_list, ssid):
@@ -56,7 +56,7 @@ def check_wifi_ssid_found(ssid_list, ssid):
 
 def send_data(data):
 
-    print (data)
+    print(data)
 
     return True
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
             continue
 
         ssid_found = check_wifi_ssid_found(wifi_ssid_list, fetched_ssid)
-        data_send = send_data(get_mac_address())
+        data_send = send_data(get_mac_address() + ", " + fetched_ssid)
 
         if not ssid_found and not data_send:
             sleep = True
