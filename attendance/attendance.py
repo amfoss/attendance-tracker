@@ -1,11 +1,13 @@
 # created by Chirath R <chirath.02@gmail.com>
 import json
-import time
+import datetime
 import sys
 import wifi
 from subprocess import Popen, PIPE
 import urllib
 from uuid import getnode as get_mac
+
+file_path = "./"
 
 
 def check_internet_connection():
@@ -19,7 +21,7 @@ def check_internet_connection():
 
 
 def get_interface_name():
-    p = Popen(['/etc/network/if-up.d/get_interface_name.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    p = Popen([file_path + 'get_interface_name.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
     return output
 
@@ -56,9 +58,7 @@ def check_wifi_ssid_found(ssid_list, ssid):
 
 def send_data(data):
 
-    file = open("/home/zombie/1.txt","w+")
-    file.write(data)
-    file.close()
+    print (data + " " + str(datetime.datetime.now()))
 
     return True
 

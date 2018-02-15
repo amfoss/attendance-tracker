@@ -1,4 +1,14 @@
 #!/bin/bash
-echo -e "#!/bin/bash \npython attendance.py" | sudo tee /etc/network/if-up.d/config > /dev/null;
-sudo mv attendance/attendance.py attendance/get_interface_name.sh  /etc/network/if-up.d/
-sudo chmod +x /etc/network/if-up.d/config /etc/network/if-up.d/attendance.py /etc/network/if-up.d/get_interface_name.sh
+mkdir ~/.attendance
+cp ./attendance/* -r ~/.attendance/
+chmod +x ~/.attendance/config ~/.attendance/attendance.py ~/.attendance/get_interface_name.sh
+
+# Add a new cronjob
+
+# write out current crontab
+crontab -l > mycron
+# echo new cron into cron file, run every 15 mins
+echo "*/15 * * * * ~/.attendance/config" >> mycron
+# install new cron file
+crontab mycron
+rm mycron
