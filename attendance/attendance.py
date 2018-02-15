@@ -47,7 +47,7 @@ def get_wifi_list(interface_name):
 
 def fetch_latest_ssid():
 
-    return "K4"
+    return "Amrita"
 
 
 def check_wifi_ssid_found(ssid_list, ssid):
