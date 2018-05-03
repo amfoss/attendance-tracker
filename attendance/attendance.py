@@ -1,10 +1,17 @@
+#!/usr/bin/python3
 # created by Chirath R <chirath.02@gmail.com>
 
 import datetime
 import sys
+import json
+
+import requests
 from urllib.request import urlopen
 from subprocess import Popen, PIPE
+
+
 file_path = "./"
+base_url = "http://127.0.0.1:8000/api/"
 
 
 def check_internet_connection():
@@ -39,8 +46,31 @@ def get_wifi_list(interface_name):
     return ssid_list
 
 
+def get_auth_token():
+    token = ''
+    try:
+        with open('.token', 'r') as file:
+            token = file.readline()
+    except EnvironmentError:
+        print("Token error, run 'python3 get_and_save_auth_token.py'")
+    return token
+
+
 def fetch_latest_ssid():
-    ssid = "k4"
+    # curl -H "Authorization: JWT <your_token>" https://amfoss.in/api/ssid-name/
+
+    url = base_url + "ssid-name/"
+
+    headers = {"Authorization": "JWT " + get_auth_token()}
+    response = requests.get(url=url, headers=headers)
+    data = json.loads(response.text)
+
+    if 'name' not in data.keys():
+        print("Authentication token error")
+        print(data)
+        sys.exit()
+
+    ssid = data['name']
     return ssid.strip().lower()
 
 
@@ -50,9 +80,19 @@ def check_wifi_ssid_found(ssid_list, ssid):
     return False
 
 
-def send_data(data):
+def mark_attendance(ssid_name):
+    url = base_url + "attendance/mark/"
+    data = {'name': ssid_name}
+    headers = {"Authorization": "JWT " + get_auth_token()}
 
-    return True
+    response = requests.post(url=url, data=data, headers=headers)
+    data = json.loads(response.text)
+    if 'status' in data.keys() and data['status'] == 'success':
+        print(ssid_name + " " + str(datetime.datetime.now()))
+        print(data)
+        return True
+    print("Error marking attendance: ", data)
+    return False
 
 
 if __name__ == '__main__':
@@ -82,10 +122,6 @@ if __name__ == '__main__':
         sys.exit()
 
     # Mark attendance
-    data_send = send_data(fetched_ssid)
+    mark_attendance(fetched_ssid)
 
-    if not data_send:
-        sys.exit()
 
-    # successful
-    print(fetched_ssid + " " + str(datetime.datetime.now()))
