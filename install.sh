@@ -17,7 +17,7 @@ sudo chmod +x /opt/attendance/config /opt/attendance/attendance.py /opt/attendan
 
 # Add a new cron-job
 # write out current crontab
-sudo crontab -l > mycron
+sudo crontab -l > mycron || touch mycron
 # echo new cron into cron file, run every 15 mins
 echo "*/15 * * * * /opt/attendance/config" >> mycron
 # install new cron file
