@@ -11,7 +11,7 @@ from subprocess import Popen, PIPE
 
 
 file_path = "./"
-base_url = "http://127.0.0.1:8000/api/"
+base_url = "https://amfoss.in/api/"
 
 
 def check_internet_connection():

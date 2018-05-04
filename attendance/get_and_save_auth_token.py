@@ -8,7 +8,7 @@ import requests
 def get_and_save_auth_token():
     # curl -X POST -d "username=chirath&password=password" https://amfoss.in/api/auth/token/
 
-    post_url = "http://localhost:8000/api/auth/token/"
+    post_url = "https://amfoss.in/api/auth/token/"
     print("Enter your foss website username and password.")
     username = input("username: ")
     password = getpass.getpass("Password: ")
