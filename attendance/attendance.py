@@ -49,7 +49,7 @@ def get_wifi_list(interface_name):
 def get_auth_token():
     token = ''
     try:
-        with open('.token', 'r') as file:
+        with open('/opt/attendance/.token', 'r') as file:
             token = file.readline()
     except EnvironmentError:
         print("Token error, run 'python3 get_and_save_auth_token.py'")
