@@ -1,9 +1,13 @@
 #!/bin/bash
 
-# install pip and wifi
-sudo apt install python3-pip
-sudo -H pip3 install request
+# install pip, git and requests
+sudo apt update
+sudo apt install python3-pip git -y
 sudo -H pip3 install requests
+
+# clone the repo
+git clone https://github.com/amfoss/join-foss.git
+cd join-foss/
 
 # Store configuration files
 mkdir ~/.attendance
@@ -18,3 +22,6 @@ echo "*/15 * * * * ~/.attendance/config" >> mycron
 # install new cron file
 sudo crontab mycron
 rm mycron
+
+cd ..
+rm -r join-foss
