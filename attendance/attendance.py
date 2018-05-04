@@ -25,15 +25,9 @@ def check_internet_connection():
     return False
 
 
-def get_interface_name():
-    p = Popen([file_path + 'get_interface_name.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    output, err = p.communicate()
-    return str(output).replace("\\n", "")
-
-
-def get_wifi_list(interface_name):
+def get_wifi_list():
     ssid_list = []
-    p = Popen([file_path + 'get_ssid_names.sh', interface_name], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    p = Popen([file_path + 'get_ssid_names.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
     output = str(output).split("\\n")
 
@@ -101,18 +95,15 @@ if __name__ == '__main__':
     if not check_internet_connection():
         sys.exit()
 
-    # get wifi interface name
-    wifi_interface_name = str(get_interface_name())
-
     # get list of wifi ssid's
-    wifi_ssid_list = get_wifi_list(wifi_interface_name)
+    wifi_ssid_list = get_wifi_list()
 
     if not wifi_ssid_list:
         sys.exit()
 
     # get new ssid from server
     fetched_ssid = fetch_latest_ssid()
-
+    
     if not fetched_ssid:
         sys.exit()
 
@@ -123,5 +114,3 @@ if __name__ == '__main__':
 
     # Mark attendance
     mark_attendance(fetched_ssid)
-
-
