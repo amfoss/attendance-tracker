@@ -57,8 +57,12 @@ def fetch_latest_ssid():
 
     headers = {"Authorization": "JWT " + get_auth_token()}
     response = requests.get(url=url, headers=headers)
-    data = json.loads(response.text)
-
+    try:
+        data = json.loads(response.text)
+    except Exception as e:
+        print(e)
+        sys.exit()
+        
     if 'name' not in data.keys():
         print("Authentication token error")
         print(data)
@@ -80,7 +84,11 @@ def mark_attendance(ssid_name):
     headers = {"Authorization": "JWT " + get_auth_token()}
 
     response = requests.post(url=url, data=data, headers=headers)
-    data = json.loads(response.text)
+    try:
+        data = json.loads(response.text)
+    except Exception as e:
+            print(e)
+            sys.exit()
     if 'status' in data.keys() and data['status'] == 'success':
         print(ssid_name + " " + str(datetime.datetime.now()))
         print(data)
