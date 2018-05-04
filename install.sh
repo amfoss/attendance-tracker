@@ -13,7 +13,7 @@ cd join-foss/
 sudo rm /opt/attendance/ -rf
 sudo mkdir /opt/attendance
 sudo cp ./attendance/* -r /opt/attendance/
-sudo chmod +x /opt/attendance/config /opt/attendance/attendance.py /opt/attendance/get_interface_name.sh /opt/attendance/get_ssid_names.sh
+sudo chmod +x /opt/attendance/config /opt/attendance/attendance.py /opt/attendance/get_ssid_names.sh
 
 # Add a new cron-job
 # write out current crontab
