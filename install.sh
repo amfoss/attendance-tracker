@@ -10,18 +10,23 @@ git clone https://github.com/amfoss/join-foss.git
 cd join-foss/
 
 # Store configuration files
-mkdir ~/.attendance
-cp ./attendance/* -r ~/.attendance/
-chmod +x ~/.attendance/config ~/.attendance/attendance.py ~/.attendance/get_interface_name.sh ~/.attendance/get_ssid_names.sh
+sudo rm /opt/attendance/
+sudo mkdir /opt/attendance
+sudo cp ./attendance/* -r /opt/attendance/
+sudo chmod +x /opt/attendance/config /opt/attendance/attendance.py /opt/attendance/get_interface_name.sh /opt/attendance/get_ssid_names.sh
 
 # Add a new cron-job
 # write out current crontab
 sudo crontab -l > mycron
 # echo new cron into cron file, run every 15 mins
-echo "*/15 * * * * ~/.attendance/config" >> mycron
+echo "*/15 * * * * /opt/attendance/config" >> mycron
 # install new cron file
 sudo crontab mycron
 rm mycron
 
 cd ..
-rm -r join-foss
+rm -rf join-foss
+
+cd /opt/attendance/
+python3 get_and_save_auth_token.py
+cd ~
