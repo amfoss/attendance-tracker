@@ -10,7 +10,7 @@ git clone https://github.com/amfoss/join-foss.git
 cd join-foss/
 
 # Store configuration files
-sudo rm /opt/attendance/
+sudo rm /opt/attendance/ -rf
 sudo mkdir /opt/attendance
 sudo cp ./attendance/* -r /opt/attendance/
 sudo chmod +x /opt/attendance/config /opt/attendance/attendance.py /opt/attendance/get_interface_name.sh /opt/attendance/get_ssid_names.sh
@@ -28,5 +28,5 @@ cd ..
 rm -rf join-foss
 
 cd /opt/attendance/
-python3 get_and_save_auth_token.py
+sudo python3 get_and_save_auth_token.py
 cd ~

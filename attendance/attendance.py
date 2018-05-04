@@ -10,7 +10,7 @@ from urllib.request import urlopen
 from subprocess import Popen, PIPE
 
 
-file_path = "./"
+file_path = "/opt/attendance/"
 base_url = "https://amfoss.in/api/"
 
 
