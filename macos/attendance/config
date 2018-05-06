@@ -1,0 +1,2 @@
+#!/bin/bash 
+python3 <YOUR ABS PATH >/amfossbot/attendance/attendance.py >/tmp/stdout.log 2>/tmp/stderr.log
