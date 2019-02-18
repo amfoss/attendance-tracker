@@ -7,8 +7,8 @@ brew install python3
 pip3 install requests
 
 # clone the repo
-git clone https://github.com/amfoss/join-foss.git -b osx
-cd join-foss/macos/
+git clone https://github.com/amfoss/attendance-tracker.git -b osx
+cd attendance-tracker/macos/
 
 # Store configuration files
 mkdir ~/amfossbot
@@ -25,7 +25,7 @@ sudo crontab mycron
 rm mycron
 
 cd ..
-rm -rf join-foss
+rm -rf attendance-tracker
 
 cd /opt/attendance/
 sudo python3 get_and_save_auth_token.py
