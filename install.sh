@@ -6,8 +6,8 @@ sudo apt install python3-pip git -y
 sudo -H pip3 install requests
 
 # clone the repo
-git clone https://github.com/amfoss/join-foss.git
-cd join-foss/
+git clone https://github.com/amfoss/attendance-tracker.git
+cd attendance-tracker/
 
 # Store configuration files
 sudo rm /opt/attendance/ -rf
@@ -25,7 +25,7 @@ sudo crontab mycron
 rm mycron
 
 cd ..
-rm -rf join-foss
+rm -rf attendance-tracker
 
 cd /opt/attendance/
 sudo python3 get_and_save_auth_token.py
