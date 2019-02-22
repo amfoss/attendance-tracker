@@ -33,17 +33,17 @@ When the server processes the logs, the algorithm shall find out that most membe
 have very low matching with each other. However, for the few people in the lab, 
 they would have very high matching, and this would mark them present.
 
-#### What if many people club bunk lab and stay in their hostel?
+##### What if many people club bunk lab and stay in their hostel?
 When they are in the hostel, since they are in multiple rooms or locations,
 they are likely going to have unmatching set of WiFi networks around them.
 
-#### How far is it credible?
+##### How far is it credible?
 Since most processing and verification is done in the servers, there is no scope
 for local manipulation of scripts. Also, since the system works on a decentralized
 model where it depends on mutual verification by members, it cannot be easily be 
 manipulated by one single person.
 
-#### Will the server be logging attendance 24 hours?
+##### Will the server be logging attendance 24 hours?
 The server will log attendance only during lab working hours defined 
 (such as 4-11 during working days) and exclude requests send all other times.
 This is to avoid huge log of data, and unnecessary processing. 

@@ -45,7 +45,7 @@ def get_credentials_token():
             credentials = file.readline()
 
     except EnvironmentError:
-        print("Token error, run 'python3 get_and_save_auth_token.py'")
+        print("Token error, run 'python3 save_credentials.py'")
     return credentials
 
 
