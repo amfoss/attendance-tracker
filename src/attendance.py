@@ -68,7 +68,7 @@ def send_attendance(wifi_ssid_list, credentials):
           }
         }
     '''
-    r = requests.post(url, json={'query': mutation, 'variable': variables})
+    r = requests.post(url, json={'query': mutation, 'variables': variables})
 
 
 if __name__ == '__main__':
