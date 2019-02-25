@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 import requests
 
-
+file_path = "/opt/attendance/"
 
 def check_internet_connection():
     try:
@@ -17,7 +17,7 @@ def check_internet_connection():
         return False
 
 def get_public_ip():
-    p = Popen(['./get_public_ip.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    p = Popen([file_path + 'get_public_ip.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     ip, err = p.communicate()
     ip = str(ip).split("\\n")[0]
     ip = ip.split("b'")[1]
@@ -26,7 +26,7 @@ def get_public_ip():
 
 def get_wifi_list():
     ssid_list = []
-    p = Popen(['./get_ssid_names.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    p = Popen([file_path + 'get_ssid_names.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
     output = str(output).split("\\n")
 
@@ -56,8 +56,8 @@ def send_attendance(wifi_ssid_list, credentials):
     variables = json.dumps(data)
     print(variables)
 
-    url = 'http://127.0.0.1:8000/graphql/?'
-    # url = 'https://amfoss.in/graphql/?'
+    # url = 'http://127.0.0.1:8000/graphql/?'
+    url = 'https://amfoss.herokuapp.com/graphql/?'
     mutation = '''
         mutation($ssids: String!, $timestamp: DateTime!, $username: String!, $password: String!, $ip: String!)
         {

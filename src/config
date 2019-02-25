@@ -1,0 +1,3 @@
+#!/bin/bash
+python3 /opt/attendance/attendance.py &> /opt/attendance/attendance.log
+
