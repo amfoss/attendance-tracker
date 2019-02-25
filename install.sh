@@ -6,7 +6,7 @@ sudo apt install python3-pip git -y
 sudo -H pip3 install requests
 
 # clone the repo
-git clone https://github.com/cdamfoss/attendance-tracker.git
+git clone https://github.com/amfoss/attendance-tracker.git
 cd attendance-tracker/
 
 # Store configuration files
@@ -28,6 +28,6 @@ cd ..
 rm -rf attendance-tracker
 
 cd /opt/attendance/
-sudo python3 get_and_save_auth_token.py
+sudo python3 /opt/attendance/save_credentials.py
 cd ~
 
