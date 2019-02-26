@@ -1,11 +1,11 @@
-# amFOSS Attendance Tracker
-
+# LabTrac
+LabTrac by amFOSS is a advanced attendance recording system in-place for the members of FOSS@Amrita, while they are in FOSSLab. It runs a cron-job at regular intervals on client systems, and sends a set containing WiFi networks in range, which is matched with other clients, to confirm presence together and award attendance. 
 
 ## How it Works?
 1. Installs a cron job script in your machine, at regular intervals.
 2. During the installation, the member saves amFOSS CMS credentials on their machine, 
    which will be used for authenticating the user.
-3. The list of WiFi Networks (Physical Address) around you are recorded, along with the timestamp, 
+3. The list of WiFi Networks (BSSID) around you are recorded, along with the timestamp, 
    and your public IP Address.
 4. All this data, along with the credentials are sent to amFOSS CMS server through API
    at regular intervals as AttendanceLogs.
@@ -13,11 +13,26 @@
    and determine whether you were in the lab, looking how much your wifi networks match
    with other members.
 
+## Installation Instructions
+1. Clone this repository
+2. Run ```install.sh```
+3. Enter your amFOSS CMS Credentials 
+On doing this, a cron-job will be setup on your machine, which will be execting on regular intervals, and sending your attendance. 
+
+#### Removing the Cron Job
+```bash
+$ sudo crontab -l > mycron || touch mycron
+$ sudo rm mycron
+```
+
 ## FAQ
 
 ##### What data is tracked?
 1. Your Public IP Address
-2. List of Physical Addresses of WiFi Networks around you.
+2. List of BSSID of WiFi Networks around you.
+
+### Do I need to be connected to the Internet?
+Yes.
 
 ##### Is the data logged forever?
 No. All the attendance logs are processed by the server every night, and attendance
@@ -51,4 +66,5 @@ This is to avoid huge log of data, and unnecessary processing.
 
 ## Developers
 * Original Developer - Chirath R.
-* Ashwin S Shenoy 
+* Python - [Ashwin S Shenoy](https://github.com/aswinshenoy)
+* Bash Scripting - [Akhil K Gangadharan](https://github.com/akhilam512)
