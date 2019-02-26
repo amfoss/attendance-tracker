@@ -1,6 +1,6 @@
 import getpass
 import json
-file_path = "/opt/attendance"
+file_path = "./"
 
 def get_and_save_auth_token():
     print("Enter your foss website username and password.")

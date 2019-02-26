@@ -7,6 +7,7 @@ import requests
 
 file_path = "/opt/attendance/"
 
+
 def check_internet_connection():
     try:
         status_code = urlopen('http://foss.amrita.ac.in').getcode()
@@ -16,6 +17,7 @@ def check_internet_connection():
         print("Internet error")
         return False
 
+
 def get_public_ip():
     p = Popen([file_path + 'get_public_ip.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     ip, err = p.communicate()
@@ -23,6 +25,7 @@ def get_public_ip():
     ip = ip.split("b'")[1]
     ip = bytes(str(ip), encoding='ascii').decode('unicode-escape')
     return ip
+
 
 def get_wifi_list():
     ssid_list = []
@@ -38,10 +41,11 @@ def get_wifi_list():
             ssid_list.append(name)
     return ssid_list
 
+
 def get_credentials_token():
     credentials = ''
     try:
-        with open('.credentials', 'r') as file:
+        with open(file_path + '.credentials', 'r') as file:
             credentials = file.readline()
 
     except EnvironmentError:
@@ -52,7 +56,8 @@ def get_credentials_token():
 def send_attendance(wifi_ssid_list, credentials):
     timestamp = datetime.now().isoformat()
     ip = get_public_ip()
-    data = {'username': credentials['username'], 'password': credentials['password'], 'timestamp': timestamp, 'ssids': wifi_ssid_list, 'ip': ip }
+    data = {'username': credentials['username'], 'password': credentials['password'], 'timestamp': timestamp,
+            'ssids': wifi_ssid_list, 'ip': ip}
     variables = json.dumps(data)
     print(variables)
 
@@ -61,7 +66,7 @@ def send_attendance(wifi_ssid_list, credentials):
     mutation = '''
         mutation($ssids: String!, $timestamp: DateTime!, $username: String!, $password: String!, $ip: String!)
         {
-        
+
           LogAttendance(username: $username, password: $password, ssids: $ssids, timestamp: $timestamp, ip: $ip)
           {
             id
