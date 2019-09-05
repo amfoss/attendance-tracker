@@ -4,7 +4,7 @@
 ## Installation
 
 ```bash
-wget https://raw.githubusercontent.com/amfoss/join-foss/master/install.sh ; bash -e install.sh
+wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh ; bash -e install.sh
 sudo /opt/attendance/config
 ```
 

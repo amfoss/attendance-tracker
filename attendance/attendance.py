@@ -1,22 +1,35 @@
 #!/usr/bin/python3
-# created by Chirath R <chirath.02@gmail.com>
 
-import datetime
 import sys
 import json
 
 import requests
 from urllib.request import urlopen
 from subprocess import Popen, PIPE
+from os.path import expanduser
+from sys import platform as _platform
 
 
-file_path = "/opt/attendance/"
-base_url = "https://amfoss.in/api/"
+if _platform == "linux" or _platform == "linux2":
+    file_path = "/opt/attendance/"
+elif _platform == "darwin":
+    home = expanduser("~")
+    file_path = home+"/.amfoss/"
+
+
+def get_credentials():
+    credentials = ''
+    try:
+        with open(file_path + '.credentials', 'r') as file:
+            credentials = file.readline()
+    except EnvironmentError:
+        print("Credentials error, run 'python3 get_and_save_credentials.py'")
+    return credentials
 
 
 def check_internet_connection():
     try:
-        status_code = urlopen('http://foss.amrita.ac.in').getcode()
+        status_code = urlopen('https://www.google.com/').getcode()
         if status_code == 200:
             return True
     except:
@@ -36,64 +49,32 @@ def get_wifi_list():
         name = str(name).strip(" ")
         name = name.strip()[6:].strip("\"").strip().strip("ESSID:").strip("\"")
         if name:
-            ssid_list.append(name.lower())
+            ssid_list.append(name)
     return ssid_list
 
 
-def get_auth_token():
-    token = ''
-    try:
-        with open('/opt/attendance/.token', 'r') as file:
-            token = file.readline()
-    except EnvironmentError:
-        print("Token error, run 'python3 get_and_save_auth_token.py'")
-    return token
+def fetch_relevant_ssid(wifi_ssid_list):
+    relevant_ssid_list = []
+    for ssid in wifi_ssid_list:
+        if ssid.startswith('amFOSS'):
+            relevant_ssid_list.append(ssid)
+    return relevant_ssid_list
 
 
-def fetch_latest_ssid():
-    # curl -H "Authorization: JWT <your_token>" https://amfoss.in/api/ssid-name/
-
-    url = base_url + "ssid-name/"
-
-    headers = {"Authorization": "JWT " + get_auth_token()}
-    response = requests.get(url=url, headers=headers)
-    try:
-        data = json.loads(response.text)
-    except Exception as e:
-        print(e)
-        sys.exit()
-        
-    if 'name' not in data.keys():
-        print("Authentication token error")
-        print(data)
-        sys.exit()
-
-    ssid = data['name']
-    return ssid.strip().lower()
-
-
-def check_wifi_ssid_found(ssid_list, ssid):
-    if ssid in ssid_list:
-        return True
-    return False
-
-
-def mark_attendance(ssid_name):
-    url = base_url + "attendance/mark/"
-    data = {'name': ssid_name}
-    headers = {"Authorization": "JWT " + get_auth_token()}
-
-    response = requests.post(url=url, data=data, headers=headers)
-    try:
-        data = json.loads(response.text)
-    except Exception as e:
-            print(e)
-            sys.exit()
-    if 'status' in data.keys() and data['status'] == 'success':
-        print(ssid_name + " " + str(datetime.datetime.now()))
-        print(data)
-        return True
-    print("Error marking attendance: ", data)
+def mark_attendance(wifi_ssid_list, credentials):
+    data = {'username': credentials['username'], 'password': credentials['password'], 'list': wifi_ssid_list}
+    variables = json.dumps(data)
+    url = 'https://api.amfoss.in/?'
+    mutation = '''
+    mutation logAttendance($username: String!, $password: String!, $list: [String]) {
+        LogAttendance(username: $username, password: $password, list: $list)
+        {
+            id
+        }
+    }
+    '''
+    r = requests.post(url, json={'query': mutation, 'variables': variables})
+    print(r.content)
     return False
 
 
@@ -106,19 +87,11 @@ if __name__ == '__main__':
     # get list of wifi ssid's
     wifi_ssid_list = get_wifi_list()
 
+    # get relevent wifi ssid's
+    wifi_ssid_list = fetch_relevant_ssid(wifi_ssid_list)
     if not wifi_ssid_list:
         sys.exit()
 
-    # get new ssid from server
-    fetched_ssid = fetch_latest_ssid()
-    
-    if not fetched_ssid:
-        sys.exit()
-
-    ssid_found = check_wifi_ssid_found(wifi_ssid_list, fetched_ssid)
-
-    if not ssid_found:
-        sys.exit()
-
+    credentials = json.loads(get_credentials())
     # Mark attendance
-    mark_attendance(fetched_ssid)
+    mark_attendance(wifi_ssid_list, credentials)

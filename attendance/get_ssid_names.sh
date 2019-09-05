@@ -12,9 +12,9 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:${unameOut}"
 esac
 #echo ${machine}
-if [ "$machine" = "Mac" ];then    
+if [[ "$machine" = "Mac" ]];then
     /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/sbin/airport -s | awk '{print $1}'
 else
     interface=`ip link | grep -Po '^\d+:\s+\K[^:]+' | grep 'w'`
-    sudo iwlist $interface scan | grep ESSID
+    sudo iwlist ${interface} scan | grep ESSID
 fi
