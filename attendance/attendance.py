@@ -14,7 +14,7 @@ if _platform == "linux" or _platform == "linux2":
     file_path = "/opt/attendance/"
 elif _platform == "darwin":
     home = expanduser("~")
-    file_path = home+"/.amfoss/"
+    file_path = home+"/.amFOSS/"
 
 
 def get_credentials():
