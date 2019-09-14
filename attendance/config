@@ -1,2 +1,15 @@
-#!/bin/bash 
-python3 /opt/attendance/attendance.py &> /opt/attendance/attendance.log
+#!/usr/bin/env bash
+
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    CYGWIN*)    machine=Cygwin;;
+    MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+
+if [[ "$machine" = "Mac" ]];then
+    python3 .amFOSS/attendance.py >/tmp/stdout.log 2>/tmp/stderr.log
+else
+    python3 /opt/attendance/attendance.py &> /opt/attendance/attendance.log

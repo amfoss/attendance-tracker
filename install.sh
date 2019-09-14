@@ -11,9 +11,9 @@ esac
 #echo ${machine}
 if [[ "$machine" = "Mac" ]];then
     # # install pip, git and requests
-    #/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    #brew install python3
-    #pip3 install requests
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew install python3
+    pip3 install requests
 
     # clone the repo
     cd
@@ -35,7 +35,7 @@ if [[ "$machine" = "Mac" ]];then
     rm mycron
 
     cd
-    #rm -rf attendance-tracker
+    rm -rf attendance-tracker
     rm -rf install.sh
 
     cd ~/.amFOSS/
