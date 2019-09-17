@@ -43,14 +43,16 @@ def get_wifi_list():
     p = Popen([file_path + 'get_ssid_names.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     output, err = p.communicate()
     output = str(output).split("\\n")
-
-    for name in output:
-        name = bytes(name, encoding='ascii').decode('unicode-escape')
-        name = str(name).strip(" ")
-        name = name.strip()[6:].strip("\"").strip().strip("ESSID:").strip("\"")
-        if name:
-            ssid_list.append(name)
-    return ssid_list
+    if _platform == "darwin":
+        return output
+    else:
+        for name in output:
+            name = bytes(name, encoding='ascii').decode('unicode-escape')
+            name = str(name).strip(" ")
+            name = name.strip()[6:].strip("\"").strip().strip("ESSID:").strip("\"")
+            if name:
+                ssid_list.append(name)
+        return ssid_list
 
 
 def fetch_relevant_ssid(wifi_ssid_list):
