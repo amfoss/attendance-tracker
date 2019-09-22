@@ -15,7 +15,7 @@ LabTrac is an advanced Attendance Recording System designed by amFOSS, for the m
 Run the following command in your terminal and then, enter your amFOSS CMS Credentials
 
 ```bash
-wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh ; bash -e install.sh
+wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh -O install.sh ; bash -e install.sh
 ```
 
 ## Update Your Credentials
@@ -30,5 +30,5 @@ sudo python3 /opt/attendance/get_and_save_credentials.py
 ### For Mac
 
 ```bash
-sudo python3 ~/.amFOSS/get_and_save_credentials.py
+sudo python3 ~/.attendance/get_and_save_credentials.py
 ```

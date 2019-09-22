@@ -8,69 +8,50 @@ case "${unameOut}" in
     MINGW*)     machine=MinGw;;
     *)          machine="UNKNOWN:${unameOut}"
 esac
-#echo ${machine}
-if [[ "$machine" = "Mac" ]];then
-    # # install pip, git and requests
+
+# install pip, git and requests
+if [[ "$machine" = "Mac" ]]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install python3
     pip3 install requests
-
-    # clone the repo
-    cd
-    git clone https://github.com/amfoss/attendance-tracker.git
-    cd attendance-tracker/attendance
-
-    # Store configuration files
-    mkdir ~/.amFOSS
-    cp -r ./ ~/.amFOSS
-    chmod +x ~/.amFOSS/config ~/.amFOSS/attendance.py ~/.amFOSS/get_ssid_names.sh
-
-    # Add a new cron-job
-    # write out current crontab
-    sudo crontab -l > mycron || touch mycron
-    # echo new cron into cron file, run every 1 min
-    echo "*/1 * * * * /.amFOSS/config" >> mycron
-    # install new cron file
-    sudo crontab mycron
-    rm mycron
-
-    cd
-    rm -rf attendance-tracker
-    rm -rf install.sh
-
-    cd ~/.amFOSS/
-    sudo python3 get_and_save_credentials.py
-    cd ~
-
+    readonly attendance_folder_path="~/.attendance"
 else
-    # install pip, git and requests
     sudo apt install python3-pip git -y
     sudo -H pip3 install requests
+    readonly attendance_folder_path="/opt/attendance"
+fi
 
-    # clone the repo
-    git clone https://github.com/amfoss/attendance-tracker.git
-    cd attendance-tracker/
+# clone the repo
+cd
+git clone https://github.com/amfoss/attendance-tracker.git
 
-    # Store configuration files
-    sudo rm /opt/attendance/ -rf
-    sudo mkdir /opt/attendance
-    sudo cp ./attendance/* -r /opt/attendance/
-    sudo chmod +x /opt/attendance/config /opt/attendance/attendance.py /opt/attendance/get_ssid_names.sh
+# create attendance folder
+sudo mkdir -p "$attendance_folder_path"
+# remove all old contents if any
+sudo rm -rf "$attendance_folder_path"/*
 
-    # Add a new cron-job
-    # write out current crontab
-    sudo crontab -l > mycron || touch mycron
-    # echo new cron into cron file, run every 1 mins
-    echo "*/1 * * * * /opt/attendance/config" >> mycron
+sudo cp -r attendance-tracker/attendance/. "$attendance_folder_path"/.
+
+sudo chmod +x "$attendance_folder_path"/config "$attendance_folder_path"/get_ssid_names.sh
+
+# Add a new cron-job
+croncmd="*/1 * * * * ${attendance_folder_path}/config"
+# write out current crontab
+sudo crontab -l > mycron || touch mycron
+# echo new cron into cron file if it does not exist,
+# to run every 1 min
+if ! grep -Fxq "$croncmd" mycron; then
+    echo "$croncmd" >> mycron
     # install new cron file
     sudo crontab mycron
-    rm mycron
-
-    cd ..
-    rm -rf attendance-tracker
-    rm install.sh
-
-    cd /opt/attendance/
-    sudo python3 get_and_save_credentials.py
-    cd ~
 fi
+
+# delete downloaded files
+rm mycron
+rm -rf attendance-tracker
+rm install.sh
+
+# fetch creds from user and store them
+cd "$attendance_folder_path"
+sudo python3 get_and_save_credentials.py
+cd ~
