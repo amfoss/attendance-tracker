@@ -18,6 +18,18 @@ Run the following command in your terminal and then, enter your amFOSS CMS Crede
 wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh -O install.sh ; bash -e install.sh
 ```
 
+## For Mac
+
+You have add your absolute path in 3 places after running the above command
+```
+* config
+* install.sh
+* attendance.py
+```
+
+To get Absolute path just 
+```pwd```
+
 ## Update Your Credentials
 This should be done whenever you change your password.
 

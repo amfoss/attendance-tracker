@@ -14,7 +14,7 @@ if [[ "$machine" = "Mac" ]]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install python3
     pip3 install requests
-    readonly attendance_folder_path="~/.attendance"
+    readonly attendance_folder_path="$HOME/.attendance"
 else
     sudo apt install python3-pip git -y
     sudo -H pip3 install requests
