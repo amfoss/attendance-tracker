@@ -10,7 +10,7 @@ case "${unameOut}" in
 esac
 
 if [[ "$machine" = "Mac" ]];then
-    python3 <YOUR ABSOULTE PATH HERE>/.attendance/attendance.py >/tmp/stdout.log 2>/tmp/stderr.log
+    python3 "$HOME"/.attendance/attendance.py >/tmp/stdout.log 2>/tmp/stderr.log
 else
     python3 /opt/attendance/attendance.py &> /opt/attendance/attendance.log
 
