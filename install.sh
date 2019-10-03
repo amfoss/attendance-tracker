@@ -11,7 +11,9 @@ esac
 
 # install pip, git and requests
 if [[ "$machine" = "Mac" ]]; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    if [[ $(command -v brew) == "" ]]; then
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
     brew install python3
     pip3 install requests
     readonly attendance_folder_path="$HOME/.attendance"
@@ -35,7 +37,8 @@ sudo cp -r attendance-tracker/attendance/. "$attendance_folder_path"/.
 sudo chmod +x "$attendance_folder_path"/config "$attendance_folder_path"/get_ssid_names.sh
 
 # Add a new cron-job
-croncmd="*/1 * * * * ${attendance_folder_path}/config"
+username=$(logname)
+croncmd="*/1 * * * * ${attendance_folder_path}/config $username"
 # write out current crontab
 sudo crontab -l > mycron || touch mycron
 # echo new cron into cron file if it does not exist,
