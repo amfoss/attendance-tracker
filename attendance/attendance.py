@@ -13,7 +13,7 @@ from sys import platform as _platform
 if _platform == "linux" or _platform == "linux2":
     file_path = "/opt/attendance/"
 elif _platform == "darwin":
-    file_path = f"{expanduser('~')}/.attendance/"
+    file_path = f"/Users/{sys.argv[1]}/.attendance/"
 
 
 def get_credentials():
