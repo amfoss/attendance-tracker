@@ -16,7 +16,7 @@ if [[ "$machine" = "Mac" ]]; then
     fi
     brew install python3
     pip3 install requests
-    readonly attendance_folder_path="$HOME/.attendance"
+    readonly attendance_folder_path="/Users/$(logname)/.attendance"
 else
     sudo apt install python3-pip git -y
     sudo -H pip3 install requests
