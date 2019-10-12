@@ -4,6 +4,7 @@ import sys
 import json
 
 import requests
+import os
 from urllib.request import urlopen
 from subprocess import Popen, PIPE
 from os.path import expanduser
@@ -85,13 +86,18 @@ if __name__ == '__main__':
     if not check_internet_connection():
         sys.exit()
 
-    # get list of wifi ssid's
-    wifi_ssid_list = get_wifi_list()
+    # get wifi's ssid if the platform is windows
+    if _platform == "win32":
+        wifi_ssid_list = os.popen('for /f "tokens=4,5" %i in (\'netsh wlan show networks ^| find "SSID"\') do @echo  %i | find "amFOSS"')
+    else:
+        # get list of wifi ssid's
+        wifi_ssid_list = get_wifi_list()
 
-    # get relevent wifi ssid's
-    wifi_ssid_list = fetch_relevant_ssid(wifi_ssid_list)
-    if not wifi_ssid_list:
-        sys.exit()
+        # get relevent wifi ssid's
+        wifi_ssid_list = fetch_relevant_ssid(wifi_ssid_list)
+
+        if not wifi_ssid_list:
+            sys.exit()
 
     credentials = json.loads(get_credentials())
     # Mark attendance
