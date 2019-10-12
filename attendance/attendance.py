@@ -7,13 +7,15 @@ import requests
 from urllib.request import urlopen
 from subprocess import Popen, PIPE
 from os.path import expanduser
+from os import getcwd
 from sys import platform as _platform
 
-
-if _platform == "linux" or _platform == "linux2":
+if "linux" in _platform:
     file_path = "/opt/attendance/"
 elif _platform == "darwin":
     file_path = f"/Users/{sys.argv[1]}/.attendance/"
+elif "win" in _platform:
+    file_path = getcwd()+'\\'
 
 
 def get_credentials():
@@ -39,7 +41,11 @@ def check_internet_connection():
 
 def get_wifi_list():
     ssid_list = []
-    p = Popen([file_path + 'get_ssid_names.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    if "win" in _platform:
+        p = Popen([file_path + 'get_ssid_names.bat'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    else:
+        p = Popen([file_path + 'get_ssid_names.sh'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+
     output, err = p.communicate()
     output = str(output).split("\\n")
     if _platform == "darwin":
