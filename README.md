@@ -1,6 +1,6 @@
 # Lab Trac
 
-LabTrac is an advanced Attendance Recording System designed by amFOSS, for the members of FOSS@Amrita. Tracks list of amFOSS WiFi networks near you.
+LabTrac is an advanced Attendance Recording System designed by and for the members of amFOSS. Tracks list of amFOSS WiFi networks near you.
 
 ## How it Works?
 
@@ -15,7 +15,7 @@ LabTrac is an advanced Attendance Recording System designed by amFOSS, for the m
 Run the following command in your terminal and then, enter your amFOSS CMS Credentials
 
 ```bash
-wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh -O install.sh ; bash -e install.sh
+sudo wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh -O install.sh ; sudo bash -e install.sh
 ```
 
 ## Update Your Credentials
