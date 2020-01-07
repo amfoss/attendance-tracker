@@ -18,9 +18,16 @@ if [[ "$machine" = "Mac" ]]; then
     pip3 install requests
     readonly attendance_folder_path="/Users/$(logname)/.attendance"
 else
-    sudo apt install python3-pip git -y
-    sudo -H pip3 install requests
-    readonly attendance_folder_path="/opt/attendance"
+    if [[ $(command -v pacman) == "" ]]; then
+        # linux install (no arch linux)
+        sudo apt install python3-pip git -y
+        sudo -H pip3 install requests
+        readonly attendance_folder_path="/opt/attendance"
+    else
+        # arch linux install, python3 is default python, iwlist is in core/wireless_tools
+        sudo pacman -S git python-requests wireless_tools
+        readonly attendance_folder_path="/opt/attendance"
+    fi
 fi
 
 # clone the repo
