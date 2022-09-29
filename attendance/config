@@ -12,6 +12,5 @@ esac
 if [[ "$machine" = "Mac" ]];then
     /usr/local/bin/python3 /Users/"$1"/.attendance/attendance.py "$1" >/tmp/stdout.log 2>/tmp/stderr.log
 else
-    python3 /opt/attendance/attendance.py &> /opt/attendance/attendance.log
-
+    python3 /opt/attendance/attendance.py &> /opt/attendance/.attendance_status
 fi

@@ -15,6 +15,5 @@ esac
 if [[ "$machine" = "Mac" ]];then
     /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/sbin/airport -s | awk '{print $1}'
 else
-    interface=`ip link | grep -Po '^\d+:\s+\K[^:]+' | grep 'w'`
-    sudo iwlist ${interface} scan | grep ESSID
+    sudo nmcli -f SSID device wifi
 fi

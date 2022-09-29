@@ -10,12 +10,16 @@ LabTrac is an advanced Attendance Recording System designed by and for the membe
 4. The member's machine will search for the amFOSS WiFi network in list of WiFi Networks (BSSID) around it.
 5. All this data, along with the credentials will be sent to amFOSS CMS server through API at regular intervals as AttendanceLogs.
 
+## Dependencies Guide
+
+Read the [guide](dependencies/README_dependencies.md) for distro-specific instructions to install dependencies.
+
 ## Installation Instructions
 
 Run the following command in your terminal and then, enter your amFOSS CMS Credentials
 
 ```bash
-sudo wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh -O install.sh ; sudo bash -e install.sh
+cd ~ && sudo wget https://raw.githubusercontent.com/amfoss/attendance-tracker/master/install.sh -O install.sh && sudo bash -e install.sh
 ```
 
 ## Update Your Credentials

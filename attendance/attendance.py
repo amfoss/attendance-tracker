@@ -45,10 +45,9 @@ def get_wifi_list():
     if _platform == "darwin":
         return output
     else:
-        for name in output:
+        for name in output[1:]:
             name = bytes(name, encoding='ascii').decode('unicode-escape')
             name = str(name).strip(" ")
-            name = name.strip()[6:].strip("\"").strip().strip("ESSID:").strip("\"")
             if name:
                 ssid_list.append(name)
         return ssid_list

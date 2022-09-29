@@ -1,0 +1,10 @@
+[Unit]
+Description=Logs attendance to the amFOSS cms
+Wants=labtrac.timer
+
+[Service]
+Type=oneshot
+ExecStart=/opt/attendance/config
+
+[Install]
+WantedBy=multi-user.target

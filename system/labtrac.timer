@@ -1,0 +1,10 @@
+[Unit]
+Description=Runs labtrac service every minute
+Requires=labtrac.service
+
+[Timer]
+Unit=labtrac.service
+OnCalendar=*-*-* *:*:00
+
+[Install]
+WantedBy=timers.target
